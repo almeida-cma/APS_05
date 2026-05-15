@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>UML · Aprendizado visual e completo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f6f9fc 0%, #eef2f5 100%);
+      font-family: system-ui, 'Segoe UI', 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      color: #1a2c3e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* container principal */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      flex: 1;
+    }
+
+    /* cabeçalho hero */
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem 0 1rem;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1E3C5C, #2B5F8A, #3C8DB5);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.02);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero .badge {
+      display: inline-block;
+      background: #d9eaf5;
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1e5a7a;
+      margin-top: 0.5rem;
+      letter-spacing: 0.3px;
+      border: 1px solid rgba(59,130,176,0.2);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #2c5368;
+      max-width: 680px;
+      margin: 1rem auto 0;
+      font-weight: 450;
+    }
+
+    /* grade de cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 2.5rem 0 3rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(2px);
+      border-radius: 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.02);
+      transition: all 0.25s ease;
+      border: 1px solid rgba(144, 186, 204, 0.35);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 28px 40px -16px rgba(18, 52, 77, 0.2);
+      border-color: rgba(59,130,176,0.5);
+      background: white;
+    }
+
+    .card-header {
+      padding: 1.5rem 1.5rem 0.5rem;
+    }
+
+    .card-icon {
+      font-size: 2.4rem;
+      margin-bottom: 0.75rem;
+      display: inline-block;
+    }
+
+    .card-header h2 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: #0f3b4f;
+      letter-spacing: -0.2px;
+      margin: 0.25rem 0 0.4rem;
+    }
+
+    .card-desc {
+      padding: 0 1.5rem;
+      color: #3c5e72;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .card-footer {
+      padding: 1rem 1.5rem 1.8rem;
+      margin-top: auto;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #eef3f8;
+      color: #1c5d7a;
+      padding: 0.7rem 1.6rem;
+      border-radius: 60px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      border: 1px solid #cbdde6;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #1e6f8f;
+      border: none;
+      color: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .btn-primary:hover {
+      background: #0e5a78;
+      transform: scale(0.97);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn-outline:hover {
+      background: #e2edf4;
+      border-color: #8db3c4;
+      transform: translateX(3px);
+    }
+
+    /* link pdf com estilo especial */
+    .pdf-badge {
+      background: #fef5e7;
+      border-left: 4px solid #e6a017;
+    }
+
+    /* rodapé elegante */
+    .footer {
+      background: #0f2c3b;
+      color: #cddfe8;
+      margin-top: 3rem;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-radius: 2rem 2rem 0 0;
+      box-shadow: 0 -8px 20px rgba(0,0,0,0.02);
+    }
+
+    .footer-content {
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .footer-link {
+      background: #2b5a72;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 2rem;
+      border-radius: 80px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+      border: 1px solid #5495af;
+    }
+
+    .footer-link:hover {
+      background: #3b7e9b;
+      transform: scale(1.02);
+      gap: 16px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    .footer small {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .separator {
+      width: 60px;
+      height: 2px;
+      background: #4e8aa8;
+      margin: 0.5rem auto;
+      border-radius: 2px;
+    }
+
+    /* responsividade */
+    @media (max-width: 680px) {
+      .container {
+        padding: 1.5rem;
+      }
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .card-header h2 {
+        font-size: 1.4rem;
+      }
+      .btn {
+        padding: 0.6rem 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card-grid {
+        gap: 1.2rem;
+      }
+    }
+
+    /* link externo indicador */
+    .btn .external-icon {
+      font-size: 1.1rem;
+      transition: transform 0.1s;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="hero">
+    <h1>UML · Aprendizado visual e completo</h1>
+    <div class="badge">📐 modelagem | 🧠 clareza | 🚀 projetos</div>
+    <p>Explore diagramas, código e referências práticas. Todos os recursos abrem em <strong>nova aba</strong> para você manter o foco no seu estudo.</p>
+  </div>
+
+  <!-- Grade com os 4 links principais conforme especificação -->
+  <div class="card-grid">
+    
+    <!-- 1) Tema 5 (UML): tema5.html -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📘</div>
+        <h2>Tema 5 · UML</h2>
+      </div>
+      <div class="card-desc">
+        Conteúdo completo sobre Diagramas de Classes, Casos de Uso, Sequência e muito mais. Material visual e direto para consolidar seus conhecimentos.
+      </div>
+      <div class="card-footer">
+        <a href="tema5.html" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          📖 Acessar Tema 5 
+          <span class="external-icon">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 2) Desafio ANVIL: app.html -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">⚙️</div>
+        <h2>Desafio ANVIL</h2>
+      </div>
+      <div class="card-desc">
+        Aplicação interativa e desafio técnico focado em lógica, interface e integração com conceitos UML. Execute e teste o case completo.
+      </div>
+      <div class="card-footer">
+        <a href="app.html" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          🚀 Desafio ANVIL 
+          <span class="external-icon">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 3) UML referente ao APP (ANVIL): resp.html -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">📐</div>
+        <h2>UML · App ANVIL</h2>
+      </div>
+      <div class="card-desc">
+        Diagrama UML completo (classes, sequência e componentes) que documenta a arquitetura do aplicativo ANVIL. Referência essencial.
+      </div>
+      <div class="card-footer">
+        <a href="resp.html" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          🧩 Ver diagrama UML 
+          <span class="external-icon">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 4) Código do botão: Codigo.pdf -->
+    <div class="card pdf-badge">
+      <div class="card-header">
+        <div class="card-icon">📄</div>
+        <h2>Código do botão</h2>
+      </div>
+      <div class="card-desc">
+        Documento PDF com implementação, especificações e boas práticas para componentes de botão em projetos UML/ANVIL.
+      </div>
+      <div class="card-footer">
+        <a href="Codigo.pdf" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+          📑 Abrir PDF 
+          <span class="external-icon">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- seção extra com dica visual de novas abas (puramente informativa) -->
+  <div style="text-align: center; margin: 1rem 0 1.5rem; font-size: 0.85rem; color: #4b6f82; background: #e9f0f5; padding: 0.6rem 1rem; border-radius: 100px; width: fit-content; margin-inline: auto;">
+    🔗 Todos os links abrem em nova aba (target="_blank") para não interromper seus estudos
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="separator"></div>
+    <p style="font-weight: 500;">📬 Envio de atividade — vincule sua resolução ao ambiente do professor</p>
+    <!-- Rodapé com link para envio de atividade (forms definido pelo professor) -->
+    <a href="https://forms.gle/T9QSe3PyEpru3t538" class="footer-link" target="_blank" rel="noopener noreferrer">
+      ✨ Enviar atividade / trabalho ✨
+      <span>↗</span>
+    </a>
+    <small>Link oficial fornecido pelo professor. Clique para abrir o formulário de submissão.</small>
+    <p style="font-size: 0.75rem; margin-top: 0.5rem;">UML · aprendizado visual e completo — todos os recursos educacionais direcionados</p>
+  </div>
+</footer>
+
+<!-- nota: todos os links usam target="_blank" + rel="noopener noreferrer" por segurança e performance -->
+</body>
+</html>

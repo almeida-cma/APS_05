@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANVIL WORKS - Calculadora de Pagamentos (Restaurante)</title>
+    <style>
+        :root {
+            --primary: #b91c1c;
+            --secondary: #ea580c;
+            --accent: #fbbf24;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --dark: #450a0a;
+            --light: #fef2f2;
+            --white: #ffffff;
+            --border: #fed7aa;
+            --warm: #fff7ed;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #ffedd5 100%);
+            color: #451a1a;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--primary);
+            background-image: radial-gradient(circle at top right, #ea580c 0%, transparent 40%);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+            border-bottom: 4px solid var(--accent);
+            color: var(--white);
+        }
+
+        .header h1 { color: var(--white); font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 800; }
+        .header h1 span { color: var(--accent); }
+        .header p { color: #fed7aa; font-size: 1.2rem; font-weight: 500; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem 3rem 2rem; }
+
+        .section {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 2.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .section:hover { transform: translateY(-3px); }
+
+        .section-title {
+            background: var(--white);
+            color: var(--primary);
+            padding: 1.2rem 2rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-title span {
+            background: var(--primary);
+            color: var(--accent);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: auto;
+            font-weight: 600;
+        }
+
+        .section-content { padding: 2rem; }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card-didatico {
+            background: var(--light);
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .card-didatico:hover { border-left-color: var(--accent); background: var(--white); }
+        .card-didatico h3 { color: var(--primary); margin-bottom: 0.8rem; font-size: 1.1rem; }
+        .card-didatico p { color: #475569; }
+
+        .rule-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        .rule-table th, .rule-table td {
+            border: 1px solid var(--border);
+            padding: 1rem;
+            text-align: center;
+        }
+        .rule-table th { background: var(--primary); color: var(--white); }
+
+        .row-success { background-color: #f0fdf4; }
+        .row-warning { background-color: #fefce8; }
+        .row-info { background-color: #ecfeff; }
+        .row-danger { background-color: #fef2f2; }
+
+        .flow {
+            background: #fef3c7;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: var(--primary);
+            border: 2px dashed #fbbf24;
+            line-height: 2;
+        }
+
+        .layout-visual {
+            background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .modern-app {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .input-group { margin-bottom: 2rem; }
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .input-group input:focus { outline: none; border-color: var(--secondary); }
+
+        .btn-check {
+            width: 100%;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            margin-bottom: 2rem;
+        }
+        .btn-check:hover { background: var(--secondary); }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .result-card {
+            background: var(--warm);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: transform 0.2s;
+        }
+        .result-card:hover { transform: translateY(-5px); }
+
+        .result-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+        .badge-desconto { background: var(--success); color: white; }
+        .badge-juros { background: var(--danger); color: white; }
+
+        .texto-fixo {
+            color: #475569;
+            font-size: 0.85rem;
+            margin: 0.5rem 0;
+        }
+
+        .valor-dinamico {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: var(--success);
+            margin: 0.8rem 0;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .component-list { display: flex; flex-direction: column; gap: 1rem; }
+        .component-item { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        .component-header {
+            background: var(--light);
+            padding: 1rem 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            color: var(--primary);
+        }
+        .component-props { display: none; background: var(--white); }
+        .component-props.active { display: block; }
+        .props-table { width: 100%; border-collapse: collapse; }
+        .props-table td {
+            padding: 0.8rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .props-table td:first-child { font-weight: 600; width: 40%; color: var(--secondary); }
+
+        .code-block { background: #1e1e1e; border-radius: 8px; overflow: hidden; }
+        .code-header {
+            background: #2d2d2d;
+            color: #e5e7eb;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            font-family: monospace;
+        }
+        .code-content { padding: 1.5rem; overflow-x: auto; }
+        .code-content pre {
+            margin: 0;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #d4d4d4;
+        }
+        .code-content pre .keyword { color: #c586c0; }
+        .code-content pre .comment { color: #6a9955; }
+        .code-content pre .function { color: #dcdcaa; }
+        .code-content pre .string { color: #ce9178; }
+        .code-content pre .number { color: #b5cea8; }
+
+        .copy-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .copy-btn:hover { background: var(--primary); }
+
+        .summary-box {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border-top: 5px solid var(--accent);
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .summary-item {
+            background: rgba(255,255,255,0.1);
+            padding: 0.8rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            text-align: left;
+        }
+        code {
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--primary);
+        }
+        .destaque {
+            background: #fef3c7;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🍽️ Calculadora de <span>Pagamentos</span></h1>
+        <p>Sistema de Caixa para Restaurante - Análise + Lógica Python no Anvil</p>
+    </div>
+
+    <div class="container">
+        
+        <!-- ETAPA 1 - ANÁLISE -->
+        <div class="section">
+            <div class="section-title">
+                🧠 ETAPA 1 — ANÁLISE DO SISTEMA
+                <span>Requisitos</span>
+            </div>
+            <div class="section-content">
+                <p style="margin-bottom: 1.5rem;"><strong>📌 Problema:</strong> Um restaurante precisa calcular o valor final considerando diferentes formas de pagamento. O atendente digita o valor e o sistema mostra TODAS as opções de uma vez.</p>
+                <div class="requirements-grid">
+                    <div class="card-didatico"><h3>📥 RF01 - Entrada</h3><p>Valor total da conta (R$) em um único campo numérico.</p></div>
+                    <div class="card-didatico"><h3>⚙️ RF02 - Processamento</h3><p>Calcular: Dinheiro (10% off), PIX (5% off), Débito (integral), Crédito 1x/2x/3x (2%, 4%, 7% juros).</p></div>
+                    <div class="card-didatico"><h3>📤 RF03 - Saída</h3><p>Exibir 6 cards com valores calculados.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA 2 - REGRAS -->
+        <div class="section">
+            <div class="section-title">
+                📊 ETAPA 2 — REGRAS DE NEGÓCIO
+                <span>Tabela de Descontos e Juros</span>
+            </div>
+            <div class="section-content">
+                <table class="rule-table">
+                    <thead><tr><th>Forma de Pagamento</th><th>Cálculo</th><th>Exemplo (R$100)</th></tr></thead>
+                    <tbody>
+                        <tr class="row-success"><td>💰 Dinheiro</th><td>10% desconto: <code>valor × 0,90</code></th><td>R$ 90,00</th></tr>
+                        <tr class="row-success"><td>📱 PIX</th><td>5% desconto: <code>valor × 0,95</code></th><td>R$ 95,00</th></tr>
+                        <tr class="row-info"><td>💳 Débito</th><td>Valor normal: <code>valor × 1,00</code></th><td>R$ 100,00</th></tr>
+                        <tr class="row-warning"><td>💎 Crédito 1x</th><td>Juros 2%: <code>valor × 1,02</code></th><td>R$ 102,00</th></tr>
+                        <tr class="row-warning"><td>💎 Crédito 2x</th><td>Juros 4%: <code>(valor × 1,04) ÷ 2</code></th><td>R$ 52,00 (por parcela)</th></tr>
+                        <tr class="row-warning"><td>💎 Crédito 3x</th><td>Juros 7%: <code>(valor × 1,07) ÷ 3</code></th><td>R$ 35,67 (por parcela)</th></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ETAPA 3 - FLUXO -->
+        <div class="section">
+            <div class="section-title">
+                🔄 ETAPA 3 — FLUXO DO SISTEMA
+                <span>Lógica de Processamento</span>
+            </div>
+            <div class="section-content">
+                <div class="flow">
+                    🧾 Digitar valor → 🖱️ Clicar em CALCULAR → 🔢 Validar (Se vazio ou <= 0) → ⚙️ Aplicar 6 fórmulas → 🎨 Exibir cards
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA 4 - MOCKUP INTERATIVO -->
+        <div class="section">
+            <div class="section-title">
+                🎨 ETAPA 4 — PROJETO DA INTERFACE
+                <span>Mockup Visual (Teste aqui!)</span>
+            </div>
+            <div class="section-content">
+                <div class="layout-visual">
+                    <div class="modern-app">
+                        <div class="app-title">🍽️ SISTEMA DE CAIXA</div>
+                        <div class="input-group">
+                            <label>💰 Valor Total da Conta (R$)</label>
+                            <input type="number" id="mockValor" placeholder="Ex: 100,00" value="100">
+                        </div>
+                        <button class="btn-check" id="mockButton">🧮 CALCULAR TODAS AS OPÇÕES</button>
+                        
+                        <div class="results-grid">
+                            <!-- DINHEIRO -->
+                            <div class="result-card">
+                                <h4>💰 DINHEIRO <span class="badge badge-desconto">-10%</span></h4>
+                                <div class="texto-fixo">À vista com desconto</div>
+                                <div class="valor-dinamico" id="mockDinheiro">R$ 90,00</div>
+                            </div>
+                            
+                            <!-- PIX -->
+                            <div class="result-card">
+                                <h4>📱 PIX <span class="badge badge-desconto">-5%</span></h4>
+                                <div class="texto-fixo">À vista com desconto</div>
+                                <div class="valor-dinamico" id="mockPix">R$ 95,00</div>
+                            </div>
+                            
+                            <!-- DÉBITO -->
+                            <div class="result-card">
+                                <h4>💳 DÉBITO</h4>
+                                <div class="texto-fixo">Valor integral</div>
+                                <div class="valor-dinamico" id="mockDebito">R$ 100,00</div>
+                            </div>
+                            
+                            <!-- CRÉDITO 1x -->
+                            <div class="result-card">
+                                <h4>💎 CRÉDITO 1x <span class="badge badge-juros">+2%</span></h4>
+                                <div class="texto-fixo">1 parcela de:</div>
+                                <div class="valor-dinamico" id="mockCredito1">R$ 102,00</div>
+                            </div>
+                            
+                            <!-- CRÉDITO 2x -->
+                            <div class="result-card">
+                                <h4>💎 CRÉDITO 2x <span class="badge badge-juros">+4%</span></h4>
+                                <div class="texto-fixo">2 parcelas de:</div>
+                                <div class="valor-dinamico" id="mockCredito2">R$ 52,00</div>
+                            </div>
+                            
+                            <!-- CRÉDITO 3x -->
+                            <div class="result-card">
+                                <h4>💎 CRÉDITO 3x <span class="badge badge-juros">+7%</span></h4>
+                                <div class="texto-fixo">3 parcelas de:</div>
+                                <div class="valor-dinamico" id="mockCredito3">R$ 35,67</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA 5 - COMPONENTES ANVIL -->
+        <div class="section">
+            <div class="section-title">
+                🧩 ETAPA 5 — COMPONENTES DO ANVIL
+                <span>Nomes exatos para o código</span>
+            </div>
+            <div class="section-content">
+                <div class="destaque">
+                    💡 <strong>Regra de Ouro:</strong> Textos fixos vão direto no layout.<br>
+                    Apenas os <strong>6 valores que mudam</strong> precisam de labels com nome no código.
+                </div>
+                
+                <div class="component-list">
+                    <div class="component-item">
+                        <div class="component-header" onclick="toggleProps(this)">1️⃣ Campo Valor Total <span>▼</span></div>
+                        <div class="component-props">
+                            <table class="props-table">
+                                <tr><td><strong>Tipo</strong></td><td>TextBox</td></tr>
+                                <tr><td><strong>Nome no código</strong></td><td><code>text_box_valor</code></td></tr>
+                                <tr><td><strong>Propriedade</strong></td><td>type = "number"</td></tr>
+                                <tr><td><strong>Placeholder</strong></td><td>"Digite o valor da conta"</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="component-item">
+                        <div class="component-header" onclick="toggleProps(this)">2️⃣ Botão Calcular <span>▼</span></div>
+                        <div class="component-props">
+                            <table class="props-table">
+                                <tr><td><strong>Tipo</strong></td><td>Button</td></tr>
+                                <tr><td><strong>Nome no código</strong></td><td><code>button_calcular</code></td></tr>
+                                <tr><td><strong>Texto</strong></td><td>"🧮 CALCULAR TODAS AS OPÇÕES"</td></tr>
+                                <tr><td><strong>Evento</strong></td><td>click → <code>button_calcular_click</code></td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="component-item">
+                        <div class="component-header" onclick="toggleProps(this)">3️⃣ Labels de Resultado (6 componentes) <span>▼</span></div>
+                        <div class="component-props">
+                            <table class="props-table">
+                                <tr><td><strong>💰 Dinheiro</strong></td><td><code>label_dinheiro</code></td><td>Valor com 10% desconto</td></tr>
+                                <tr><td><strong>📱 PIX</strong></td><td><code>label_pix</code></td><td>Valor com 5% desconto</td></tr>
+                                <tr><td><strong>💳 Débito</strong></td><td><code>label_debito</code></td><td>Valor integral</td></tr>
+                                <tr><td><strong>💎 Crédito 1x</strong></td><td><code>label_credito1</code></td><td>Total com 2% juros</td></tr>
+                                <tr><td><strong>💎 Crédito 2x</strong></td><td><code>label_credito2</code></td><td>Valor da parcela (2x)</td></tr>
+                                <tr><td><strong>💎 Crédito 3x</strong></td><td><code>label_credito3</code></td><td>Valor da parcela (3x)</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; margin-top: 1.5rem; border-left: 4px solid var(--success);">
+                    📌 <strong>Componentes com texto FIXO (não precisam de nome no código):</strong><br>
+                    • Títulos dos cards ("💰 DINHEIRO", "📱 PIX", etc.)<br>
+                    • Badges ("-10%", "-5%", "+2%", etc.)<br>
+                    • Textos descritivos ("À vista com desconto", "1 parcela de:", "2 parcelas de:", "3 parcelas de:")
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA 6 e 7 - CÓDIGO PYTHON -->
+        <div class="section">
+            <div class="section-title">
+                💻 ETAPA 6 e 7 — CÓDIGO PYTHON COMPLETO
+                <span>Substitua as funções no Anvil por estas duas:</span>
+            </div>
+            <div class="section-content">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>📄 form_restaurante.py</span>
+                        <button class="copy-btn" onclick="copyCode()">📋 Copiar Código</button>
+                    </div>
+                    <div class="code-content">
+<pre id="full-code">
+    <span class="keyword">def</span> <span class="function">button_calcular_click</span>(self, **event_args):
+
+        <span class="comment"># 1. ENTRADA (Como o TextBox é type="number", o Anvil já entrega o número ou None)</span>
+        valor = self.text_box_valor.text
+
+        <span class="comment"># 2. VALIDAÇÕES LIMPAS</span>
+        <span class="keyword">if</span> valor <span class="keyword">is</span> <span class="keyword">None</span>:
+            self.exibir_erro(<span class="string">"⚠️ Digite o valor da conta!"</span>)
+            <span class="keyword">return</span>
+
+        <span class="keyword">if</span> valor &lt;= <span class="number">0</span>:
+            self.exibir_erro(<span class="string">"❌ Valor deve ser maior que zero!"</span>)
+            <span class="keyword">return</span>
+
+        <span class="comment"># 3. CÁLCULOS</span>
+        <span class="keyword">def</span> <span class="function">fmt</span>(v):
+            <span class="keyword">return</span> <span class="string">f"R$ {v:.2f}"</span>.replace(<span class="string">'.'</span>, <span class="string">','</span>)
+
+        <span class="comment"># DINHEIRO (10% desconto)</span>
+        self.label_dinheiro.text = fmt(valor * <span class="number">0.90</span>)
+
+        <span class="comment"># PIX (5% desconto)</span>
+        self.label_pix.text = fmt(valor * <span class="number">0.95</span>)
+
+        <span class="comment"># DÉBITO (integral)</span>
+        self.label_debito.text = fmt(valor)
+
+        <span class="comment"># CRÉDITO 1x (2% juros)</span>
+        self.label_credito1.text = fmt(valor * <span class="number">1.02</span>)
+
+        <span class="comment"># CRÉDITO 2x (4% juros) - mostra o valor da parcela</span>
+        total2 = valor * <span class="number">1.04</span>
+        self.label_credito2.text = fmt(total2 / <span class="number">2</span>)
+
+        <span class="comment"># CRÉDITO 3x (7% juros) - mostra o valor da parcela</span>
+        total3 = valor * <span class="number">1.07</span>
+        self.label_credito3.text = fmt(total3 / <span class="number">3</span>)
+
+
+    <span class="keyword">def</span> <span class="function">exibir_erro</span>(self, mensagem):
+        labels = [
+            self.label_dinheiro, self.label_pix, self.label_debito,
+            self.label_credito1, self.label_credito2, self.label_credito3
+        ]
+        <span class="keyword">for</span> label <span class="keyword">in</span> labels:
+            label.text = mensagem
+</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ETAPA 8 - TESTES -->
+        <div class="section">
+            <div class="section-title">
+                📖 ETAPA 8 — CASOS DE TESTE
+                <span>Valide o funcionamento</span>
+            </div>
+            <div class="section-content">
+                <p style="margin-bottom: 1rem;"><strong>🧪 Teste os valores no mockup acima e veja os resultados!</strong></p>
+                <table class="rule-table">
+                    <thead>
+                        <tr><th>Cenário</th><th>Valor</th><th>Dinheiro</th><th>PIX</th><th>Débito</th><th>Crédito 1x</th><th>Crédito 2x</th><th>Crédito 3x</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row-success"><td>Conta simples</th><td>R$ 100</th><td>R$ 90,00</th><td>R$ 95,00</th><td>R$ 100,00</th><td>R$ 102,00</th><td>R$ 52,00</th><td>R$ 35,67</th></tr>
+                        <tr class="row-success"><td>Jantar família</th><td>R$ 250</th><td>R$ 225,00</th><td>R$ 237,50</th><td>R$ 250,00</th><td>R$ 255,00</th><td>R$ 130,00</th><td>R$ 89,17</th></tr>
+                        <tr class="row-success"><td>Comemoração</th><td>R$ 500</th><td>R$ 450,00</th><td>R$ 475,00</th><td>R$ 500,00</th><td>R$ 510,00</th><td>R$ 260,00</th><td>R$ 178,33</th></tr>
+                        <tr class="row-success"><td>Valor quebrado</th><td>R$ 127,50</th><td>R$ 114,75</th><td>R$ 121,13</th><td>R$ 127,50</th><td>R$ 130,05</th><td>R$ 66,30</th><td>R$ 45,48</th></tr>
+                        <tr class="row-danger"><td>Valor zero</th><td>R$ 0</th><td colspan="6">❌ Valor deve ser maior que zero!</td></tr>
+                        <tr class="row-danger"><td>Campo vazio</th><td>-</th><td colspan="6">⚠️ Digite o valor da conta!</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RESUMO -->
+        <div class="summary-box">
+            <h2>🎯 RESUMO DO PROJETO</h2>
+            <p style="color: #fed7aa; margin-top: 5px;">Calculadora de Pagamentos - Formato Didático</p>
+            <div class="summary-grid">
+                <div class="summary-item">✅ <strong>Entrada:</strong> 1 campo (<code>text_box_valor</code> type=number)</div>
+                <div class="summary-item">✅ <strong>Botão:</strong> 1 botão (<code>button_calcular</code>)</div>
+                <div class="summary-item">✅ <strong>Saída:</strong> 6 labels dinâmicos de resultado</div>
+                <div class="summary-item">✅ <strong>Descontos:</strong> 10% (Dinheiro) e 5% (PIX)</div>
+                <div class="summary-item">✅ <strong>Juros:</strong> 2%, 4% e 7% (Crédito)</div>
+                <div class="summary-item">✅ <strong>Validação Elegante:</strong> Verifica se `valor is None` e `<= 0`.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleProps(header) {
+            const propsDiv = header.nextElementSibling;
+            propsDiv.classList.toggle('active');
+        }
+
+        function copyCode() {
+            const code = document.getElementById('full-code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('✅ Código copiado! Substitua toda a função button_calcular_click atual por este bloco.');
+            });
+        }
+
+        // Mockup interativo - usando a MESMA lógica do código
+        const mockButton = document.getElementById('mockButton');
+        const mockValor = document.getElementById('mockValor');
+
+        function formatarMoeda(valor) {
+            return `R$ ${valor.toFixed(2).replace('.', ',')}`;
+        }
+
+        function atualizarMock() {
+            let valor = parseFloat(mockValor.value);
+            
+            if (isNaN(valor) || mockValor.value === "") {
+                const cards = ['mockDinheiro', 'mockPix', 'mockDebito', 'mockCredito1', 'mockCredito2', 'mockCredito3'];
+                cards.forEach(id => document.getElementById(id).innerHTML = '⚠️ Digite o valor!');
+                return;
+            }
+            
+            if (valor <= 0) {
+                const cards = ['mockDinheiro', 'mockPix', 'mockDebito', 'mockCredito1', 'mockCredito2', 'mockCredito3'];
+                cards.forEach(id => document.getElementById(id).innerHTML = '❌ Valor inválido!');
+                return;
+            }
+            
+            // MESMA LÓGICA do código Python
+            document.getElementById('mockDinheiro').innerHTML = formatarMoeda(valor * 0.90);
+            document.getElementById('mockPix').innerHTML = formatarMoeda(valor * 0.95);
+            document.getElementById('mockDebito').innerHTML = formatarMoeda(valor);
+            document.getElementById('mockCredito1').innerHTML = formatarMoeda(valor * 1.02);
+            
+            const total2 = valor * 1.04;
+            document.getElementById('mockCredito2').innerHTML = formatarMoeda(total2 / 2);
+            
+            const total3 = valor * 1.07;
+            document.getElementById('mockCredito3').innerHTML = formatarMoeda(total3 / 3);
+        }
+        
+        mockButton.addEventListener('click', atualizarMock);
+        mockValor.addEventListener('input', atualizarMock);
+        mockValor.addEventListener('change', atualizarMock);
+        atualizarMock();
+    </script>
+</body>
+</html>
