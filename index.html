@@ -124,6 +124,19 @@
       flex: 1;
     }
 
+    .card-desc .requisitos {
+      margin-top: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: #f0f6fa;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      border-left: 3px solid #3c8db5;
+    }
+
+    .card-desc .requisitos strong {
+      color: #1a5a7a;
+    }
+
     .card-footer {
       padding: 1rem 1.5rem 1.8rem;
       margin-top: auto;
@@ -164,10 +177,56 @@
       transform: translateX(3px);
     }
 
+    .btn-colab {
+      background: #f9ab00;
+      border: none;
+      color: #202124;
+    }
+
+    .btn-colab:hover {
+      background: #e09e00;
+      transform: scale(0.97);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn-drawio {
+      background: #ff6b35;
+      border: none;
+      color: white;
+    }
+
+    .btn-drawio:hover {
+      background: #e55a2b;
+      transform: scale(0.97);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn-duplo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .btn-duplo .btn {
+      flex: 1;
+      justify-content: center;
+      min-width: 120px;
+    }
+
     /* link pdf com estilo especial */
     .pdf-badge {
       background: #fef5e7;
       border-left: 4px solid #e6a017;
+    }
+
+    .colab-badge {
+      background: #f1f8fe;
+      border-left: 4px solid #f9ab00;
+    }
+
+    .diagrama-badge {
+      background: #f5f0eb;
+      border-left: 4px solid #ff6b35;
     }
 
     /* rodapé elegante */
@@ -247,11 +306,20 @@
       .btn {
         padding: 0.6rem 1.2rem;
       }
+      .btn-duplo .btn {
+        min-width: 100px;
+      }
     }
 
     @media (max-width: 480px) {
       .card-grid {
         gap: 1.2rem;
+      }
+      .btn-duplo {
+        flex-direction: column;
+      }
+      .btn-duplo .btn {
+        width: 100%;
       }
     }
 
@@ -271,7 +339,7 @@
     <p>Explore diagramas, código e referências práticas. Todos os recursos abrem em <strong>nova aba</strong> para você manter o foco no seu estudo.</p>
   </div>
 
-  <!-- Grade com os 4 links principais conforme especificação -->
+  <!-- Grade com os 6 cards -->
   <div class="card-grid">
     
     <!-- 1) Tema 5 (UML): tema5.html -->
@@ -341,6 +409,49 @@
         </a>
       </div>
     </div>
+
+    <!-- 5) NOVO CARD: Google Colab -->
+    <div class="card colab-badge">
+      <div class="card-header">
+        <div class="card-icon">🧪</div>
+        <h2>Google Colab</h2>
+      </div>
+      <div class="card-desc">
+        Notebook interativo com implementações práticas e exemplos de código para execução na nuvem.
+        <div class="requisitos">
+          <strong>⚠️ Requisitos:</strong> Conta Google para acessar e executar o notebook. Abrirá em nova aba.
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="https://colab.research.google.com/drive/1NttBio7h5brAiXuSemcZm8pj7MafMXQA?usp=sharing" class="btn btn-colab" target="_blank" rel="noopener noreferrer">
+          ▶️ Abrir no Colab 
+          <span class="external-icon">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 6) NOVO CARD: Diagrama UML + Draw.io -->
+    <div class="card diagrama-badge">
+      <div class="card-header">
+        <div class="card-icon">🖼️</div>
+        <h2>Diagrama UML</h2>
+      </div>
+      <div class="card-desc">
+        Visualize o diagrama UML completo da aplicação. Use o Draw.io para editar ou criar seus próprios diagramas.
+      </div>
+      <div class="card-footer">
+        <div class="btn-duplo">
+          <a href="UML.png" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            🖼️ Ver PNG 
+            <span class="external-icon">↗</span>
+          </a>
+          <a href="https://www.drawio.com/" class="btn btn-drawio" target="_blank" rel="noopener noreferrer">
+            ✏️ Draw.io 
+            <span class="external-icon">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
   
   <!-- seção extra com dica visual de novas abas (puramente informativa) -->
@@ -363,6 +474,5 @@
   </div>
 </footer>
 
-<!-- nota: todos os links usam target="_blank" + rel="noopener noreferrer" por segurança e performance -->
 </body>
 </html>
